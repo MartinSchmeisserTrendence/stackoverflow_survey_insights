@@ -1,14 +1,11 @@
 # Project
 
-A small project that loads, extracts, transforms and visualizes data from the StackOverflow survey. 
+A small project that loads, extracts, transforms and visualizes data from the StackOverflow survey using batchprocessing in GCP. 
 
 Closing project of the data engineering zoomcamp 2025[https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main].
 
 
 # Techstack
-
-- Batchprocessing
-- GCP//
 
 - *Terraform*: Setting up the IaC
 - *Kastra/DLT*: Orchestrate a Pipeline for processing this dataset and putting it to a datalake
@@ -35,6 +32,19 @@ Therefore, downloading the zip-files manually in every new year seems to be mand
 
 
 ## 1. IaC with Terraform
+
+- creating a databucket
+- creating a dataset (staging)
+- creating a dataset
+
+How to execute:
+- create service-account in GCP and export credentials as JSON
+- adjust path to this JSON in main.tf
+- adjust project-name and region
+
+- run "terraform init", "terraform plan", "terraform apply"
+
+
 ## 2. Workflow-Orchestration and Data-Ingestion with Kaestra
 ## 3. Transformations with DBT
 ## 4. Building dashboard with Google Data Studio
