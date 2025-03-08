@@ -4,7 +4,22 @@ A small project that loads, extracts, transforms and visualizes data from the St
 
 Closing project of the data engineering zoomcamp 2025[https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main].
 
-# Data-Source
+
+# Techstack
+
+- Batchprocessing
+- GCP//
+
+- *Terraform*: Setting up the IaC
+- *Kastra/DLT*: Orchestrate a Pipeline for processing this dataset and putting it to a datalake
+- *Kaestra*: Creating a pipeline for moving the data from the lake to a data warehouse
+- *DBT/BigQuery*: Transforming the data in the data warehouse: prepare and cluster it for the dashboard
+- *Google Data Studio*: Building a dashboard with two tiles to visualize the data
+
+
+# Technical Details
+
+## 0. Data-Source
 https://survey.stackoverflow.co/
 
 
@@ -16,5 +31,13 @@ Examples:
 
 
 Therefore, downloading the zip-files manually in every new year seems to be mandatory.
+
+
+
+## 1. IaC with Terraform
+## 2. Workflow-Orchestration and Data-Ingestion with Kaestra
+## 3. Transformations with DBT
+## 4. Building dashboard with Google Data Studio
+
 
 
