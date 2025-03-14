@@ -27,9 +27,8 @@ Examples:
 
 
 Therefore, downloading the zip-files manually in every new year seems to be mandatory.
-Furthermore, I decided to unzip the ZIP-files manually to extract the relevant .csv files, because also their naming structure is changing.
 
-The extracted .csv files are located in 00_data/unzipped.
+The .zip files are located in "00_data".
 
 
 
@@ -52,16 +51,18 @@ The extracted .csv files are located in 00_data/unzipped.
 
 ### Description
 - setting up key-value-variables for GCP in Kaestra
-- upload the extracted .csv files (located in 00_data/unzipped) to GCS in batches
+- extract the .zip files (located in "00_data") and upload the .csv files to GCS in batches
 - create external tables and non-external tables in BigQuery
 
 ### Usage
 - execute "docker compose up -d" to run kaestra (in the docker-compose, the local folder with the csv files is mapped as value so Kestra can find the local files)
 - open "http://localhost:8080" 
-- import the flows from "02_ingestion_kaestra" to kaestra and execute them
+- import the flow "01_key_values.yaml" execute it to set the credentials
+    - note: copy the credentials of the GCP service account from the JSON to 01_key_values.yaml
 
-- note: copy the credentials of the GCP service account from the JSON to 01_key_values.yaml
-
+- import and execute either
+-- "02_stackoverlow_ingestion_with_inputs.yaml" to execute the ingestion for one year
+-- "03_stackoverlow_ingestion_scheduled.yaml", where all years can be executed at once using the backfill-function (start: "2020-01-01 00:00:00", end: "2025-01-01 00:00:00")
 
 ## 3. Transformations with DBT
 

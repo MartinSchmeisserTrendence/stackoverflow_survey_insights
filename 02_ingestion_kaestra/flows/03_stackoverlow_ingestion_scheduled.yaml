@@ -2,34 +2,42 @@ id: 03_stackoverlow_ingestion_scheduled
 namespace: stackoverflow
 
 description: |
-  Uploading local CSV files to GCS and create external and not-external table using scheduled triggers.
+  Uploading local zip files, extract them, upload csv-files to GCS and create external and not-external table using scheduled triggers.
 
 variables:
-  file_name: "{{trigger.date | date('yyyy')}}_survey_results_public.csv"
+  local_file_name: "stack-overflow-developer-survey-{{trigger.date | date('yyyy')}}.zip"
+  local_file_path: "/tmp/kestra-wd/stackoverflow/{{vars.local_file_name}}"
+  tmp_file_name: "stackoverflow_survey_{{trigger.date | date('yyyy')}}.csv"
   table_name: "stackoverflow_survey_{{trigger.date | date('yyyy')}}"
-  local_file_path: "/tmp/kestra-wd/csv/{{vars.file_name}}"
-  gcs_file: "gs://playground-martin-stackoverflow-survey-data-bucket/{{vars.file_name}}"
+  gcs_file: "gs://playground-martin-stackoverflow-survey-data-bucket/{{vars.tmp_file_name}}"
 
 tasks:
   - id: set_label
     type: io.kestra.plugin.core.execution.Labels
     labels:
-      file: "{{render(vars.file_name)}}"
+      file: "{{render(vars.local_file_name)}}"
 
-  # this is needed because gcs.upload cannot use files from the local docker directory directly, the files have to be in the internal storage
-  # (this is the due to the cloud native architecture, uploading local files is not a real usecase for Kestra I guess)
-  - id: upload_to_internal_storage
+  - id: unzip_and_upload_to_internal_storage
     type: io.kestra.plugin.scripts.shell.Commands
     taskRunner:
       type: io.kestra.plugin.core.runner.Process
     commands:
-      - cat {{render(vars.local_file_path)}} > {{render(vars.file_name)}}
+      # Clear the directory if it exists
+      - rm -rf /tmp/kestra-wd/unzipped
+      # Create the directory again
+      - mkdir -p /tmp/kestra-wd/unzipped
+      # unzipping
+      - unzip {{render(vars.local_file_path)}} -d /tmp/kestra-wd/unzipped
+      # renaming
+      - mv -f /tmp/kestra-wd/unzipped/survey_results_public.csv /tmp/kestra-wd/unzipped/{{render(vars.tmp_file_name)}}
+      # writing in internal storage so that gcs.upload can use it
+      - cat /tmp/kestra-wd/unzipped/{{render(vars.tmp_file_name)}} > {{render(vars.tmp_file_name)}}
     outputFiles:
-      - "{{render(vars.file_name)}}"
+      - "{{render(vars.tmp_file_name)}}"
 
   - id: upload_to_gcs
     type: io.kestra.plugin.gcp.gcs.Upload
-    from: "{{ outputs.upload_to_internal_storage.outputFiles[render(vars.file_name)] }}"
+    from: "{{ outputs.unzip_and_upload_to_internal_storage.outputFiles[render(vars.tmp_file_name)] }}"
     to: "{{render(vars.gcs_file)}}"
     
   - id: create_external_table
@@ -51,7 +59,6 @@ tasks:
       SELECT *
       FROM `{{kv('GCP_PROJECT_ID')}}.{{kv('GCP_DATASET')}}.{{render(vars.table_name)}}_ext`
 
-
 pluginDefaults:
   - type: io.kestra.plugin.gcp
     values:
@@ -60,6 +67,7 @@ pluginDefaults:
       location: "{{kv('GCP_LOCATION')}}"
       bucket: "{{kv('GCP_BUCKET_NAME')}}"
 
+# scheduled on the first of every year
 triggers:
   - id: stackoverflow_schedule
     type: io.kestra.plugin.core.trigger.Schedule

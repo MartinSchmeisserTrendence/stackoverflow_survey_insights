@@ -28,7 +28,7 @@ services:
       - kestra-data:/app/storage
       - /var/run/docker.sock:/var/run/docker.sock
       - /tmp/kestra-wd:/tmp/kestra-wd
-      - ../00_data/unzipped/:/tmp/kestra-wd/csv  # <-- Add your local directory here
+      - ../00_data/:/tmp/kestra-wd/stackoverflow  # <-- Add your local directory here
     environment:
       KESTRA_CONFIGURATION: |
         datasources:
