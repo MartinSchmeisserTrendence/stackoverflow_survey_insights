@@ -8,8 +8,7 @@ Closing project of the data engineering zoomcamp 2025[https://github.com/DataTal
 # Techstack
 
 - *Terraform*: Setting up the IaC
-- *Kastra/DLT*: Orchestrate a Pipeline for processing this dataset and putting it to a datalake
-- *Kaestra*: Creating a pipeline for moving the data from the lake to a data warehouse
+- *Kastra*: Orchestrate a Pipeline for processing loading data into a datalake and then into a data warehouse
 - *DBT/BigQuery*: Transforming the data in the data warehouse: prepare and cluster it for the dashboard
 - *Google Data Studio*: Building a dashboard with two tiles to visualize the data
 
@@ -19,7 +18,7 @@ Closing project of the data engineering zoomcamp 2025[https://github.com/DataTal
 ## 0. Data-Source
 https://survey.stackoverflow.co/
 
-It does not seem to be possible to gather the data automatically with a script due to changing link structures.
+Sadly, it does not seem to be possible to gather the data automatically with a script due to changing link structures.
 
 Examples:
 - https://info.stackoverflowsolutions.com/rs/719-EMH-566/images/stack-overflow-developer-survey-2022.zip
@@ -61,8 +60,8 @@ The .zip files are located in "00_data".
     - note: copy the credentials of the GCP service account from the JSON to 01_key_values.yaml
 
 - import and execute either
--- "02_stackoverlow_ingestion_with_inputs.yaml" to execute the ingestion for one year
--- "03_stackoverlow_ingestion_scheduled.yaml", where all years can be executed at once using the backfill-function (start: "2020-01-01 00:00:00", end: "2025-01-01 00:00:00")
+    - "02_stackoverlow_ingestion_with_inputs.yaml" to execute the ingestion for one year
+    - "03_stackoverlow_ingestion_scheduled.yaml", where all years can be executed at once using the backfill-function (start: "2020-01-01 00:00:00", end: "2025-01-01 00:00:00")
 
 ## 3. Transformations with DBT
 
