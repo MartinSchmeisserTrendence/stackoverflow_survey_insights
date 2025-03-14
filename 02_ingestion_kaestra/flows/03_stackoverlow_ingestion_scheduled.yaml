@@ -1,0 +1,66 @@
+id: 03_stackoverlow_ingestion_scheduled
+namespace: stackoverflow
+
+description: |
+  Uploading local CSV files to GCS and create external and not-external table using scheduled triggers.
+
+variables:
+  file_name: "{{trigger.date | date('yyyy')}}_survey_results_public.csv"
+  table_name: "stackoverflow_survey_{{trigger.date | date('yyyy')}}"
+  local_file_path: "/tmp/kestra-wd/csv/{{vars.file_name}}"
+  gcs_file: "gs://playground-martin-stackoverflow-survey-data-bucket/{{vars.file_name}}"
+
+tasks:
+  - id: set_label
+    type: io.kestra.plugin.core.execution.Labels
+    labels:
+      file: "{{render(vars.file_name)}}"
+
+  # this is needed because gcs.upload cannot use files from the local docker directory directly, the files have to be in the internal storage
+  # (this is the due to the cloud native architecture, uploading local files is not a real usecase for Kestra I guess)
+  - id: upload_to_internal_storage
+    type: io.kestra.plugin.scripts.shell.Commands
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    commands:
+      - cat {{render(vars.local_file_path)}} > {{render(vars.file_name)}}
+    outputFiles:
+      - "{{render(vars.file_name)}}"
+
+  - id: upload_to_gcs
+    type: io.kestra.plugin.gcp.gcs.Upload
+    from: "{{ outputs.upload_to_internal_storage.outputFiles[render(vars.file_name)] }}"
+    to: "{{render(vars.gcs_file)}}"
+    
+  - id: create_external_table
+    type: io.kestra.plugin.gcp.bigquery.Query
+    sql: |
+      CREATE OR REPLACE EXTERNAL TABLE `{{kv('GCP_PROJECT_ID')}}.{{kv('GCP_DATASET')}}.{{render(vars.table_name)}}_ext`
+      OPTIONS (
+          format = 'CSV',
+          uris = ['{{render(vars.gcs_file)}}'],
+          skip_leading_rows = 1, -- to skip the header row
+          allow_quoted_newlines = true,
+          null_marker = 'NA'  -- Treats "NA" as NULL
+      );
+
+  - id: create_standard_table
+    type: io.kestra.plugin.gcp.bigquery.Query
+    sql: |
+      CREATE OR REPLACE TABLE `{{kv('GCP_PROJECT_ID')}}.{{kv('GCP_DATASET')}}.{{render(vars.table_name)}}` AS
+      SELECT *
+      FROM `{{kv('GCP_PROJECT_ID')}}.{{kv('GCP_DATASET')}}.{{render(vars.table_name)}}_ext`
+
+
+pluginDefaults:
+  - type: io.kestra.plugin.gcp
+    values:
+      serviceAccount: "{{kv('GCP_CREDS')}}"
+      projectId: "{{kv('GCP_PROJECT_ID')}}"
+      location: "{{kv('GCP_LOCATION')}}"
+      bucket: "{{kv('GCP_BUCKET_NAME')}}"
+
+triggers:
+  - id: stackoverflow_schedule
+    type: io.kestra.plugin.core.trigger.Schedule
+    cron: "1 0 1 1 *"
