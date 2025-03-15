@@ -13,7 +13,7 @@ TODO
 - *Terraform*: Setting up the IaC
 - *Kastra*: Orchestrate a Pipeline for processing loading data into a datalake and then into a data warehouse
 - *DBT/BigQuery*: Transforming the data in the data warehouse: prepare and cluster it for the dashboard
-- *Google Data Studio*: Building a dashboard with two tiles to visualize the data
+- *Looker Studio (former Google Data Studio)*: Building a dashboard with two tiles to visualize the data
 
 
 # Technical Details
@@ -87,7 +87,7 @@ The .zip files are located in "00_data".
 - execute dbt-build in development-env and later in production-env
 
 
-## 4. Building dashboard with Google Data Studio
+## 4. Building dashboard with Looker Studio
 
 
 
