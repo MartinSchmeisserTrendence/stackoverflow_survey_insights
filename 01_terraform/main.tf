@@ -44,6 +44,12 @@ resource "google_bigquery_dataset" "dataset-staging" {
   location   = "EU"
 }
 
+resource "google_bigquery_dataset" "dataset-production" {
+  dataset_id = "stackoverflow_production"
+  project    = "playground-martin"
+  location   = "EU"
+}
+
 resource "google_bigquery_dataset" "dataset" {
   dataset_id = "stackoverflow"
   project    = "playground-martin"

@@ -4,6 +4,9 @@ A small project that loads, extracts, transforms and visualizes data from the St
 
 Closing project of the data engineering zoomcamp 2025[https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main].
 
+# Problem-Description
+
+TODO
 
 # Techstack
 
@@ -65,6 +68,23 @@ The .zip files are located in "00_data".
 
 ## 3. Transformations with DBT
 
+
+### Description
+- see lineage for overview
+
+#### Models
+- stg_stackoverflow_meta.sql --> counting respondents per year
+- stackoverflow_meta.sql --> copy of stg_stackoverflow_meta, yould be omitted
+
+- stg_stackoverflow_data.sql --> union of the tables of four years with selected columns and renaming
+- stackoverflow_data_participants.sql --> distincting participants in professional/non-professional developers and in data-related or non-data-related jobs
+- stackoverflow_data_unnested.sql --> unnesting of nested columns "DatabaseHaveWorkedWith" and "DatabaseWandToWorkWith" and joining with stackoverflow_data_participants
+- stackoverflow_data_clustered.sql --> final data table for the front-end, partitioned by year and clustered by "participant_description" and "participant_developer_description"
+
+
+### Usage
+- set up DBT with BigQuery-connection, Repository-connection, and, if desired, multiple environments
+- execute dbt-build in development-env and later in production-env
 
 
 ## 4. Building dashboard with Google Data Studio
