@@ -1,0 +1,11 @@
+version: 2
+
+models:
+    - name: stackoverflow_meta
+      description: "Aggregated meta-informations for the surveys"
+
+    - name: stackoverflow_data_participants
+      description: "Unioned data for the surveys with chosen attributes"
+
+    - name: stackoverflow_data_unnested
+      description: "Unioned data for the surveys with chosen attributes"
