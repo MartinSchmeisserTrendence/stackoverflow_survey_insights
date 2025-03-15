@@ -17,4 +17,4 @@ models:
       description: "Aggregated meta-informations for the surveys"
 
     - name: stg_stackoverflow_data
-      description: "Unioned data for the surveys with chosen attributes"
+      description: "Unioned data for the surveys with chosen columns"

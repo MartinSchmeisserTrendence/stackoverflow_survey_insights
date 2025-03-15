@@ -5,7 +5,10 @@ models:
       description: "Aggregated meta-informations for the surveys"
 
     - name: stackoverflow_data_participants
-      description: "Unioned data for the surveys with chosen attributes"
+      description: "Participant-related data"
 
     - name: stackoverflow_data_unnested
-      description: "Unioned data for the surveys with chosen attributes"
+      description: "Unnested data for database-related columns joined with participant-data"
+
+    - name: stackoverflow_data_clustered
+      description: "Clustered table for the final visualisation"
