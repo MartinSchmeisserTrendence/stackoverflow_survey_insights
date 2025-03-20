@@ -13,8 +13,5 @@ sources:
       - name: stackoverflow_survey_2024
 
 models:
-    - name: stg_stackoverflow_meta
-      description: "Aggregated meta-informations for the surveys"
-
     - name: stg_stackoverflow_data
       description: "Unioned data for the surveys with chosen columns"
