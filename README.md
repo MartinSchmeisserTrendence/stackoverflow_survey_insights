@@ -1,6 +1,6 @@
 # Stack Overflow Survey - Insights
 
-A small project that loads, extracts, transforms and visualizes data from the StackOverflow survey using batchprocessing in GCP. 
+A small project that loads, extracts, transforms and visualizes data from the Stack Overflow survey using batchprocessing in GCP. 
 
 Closing project of the [data engineering zoomcamp 2025](https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main).
 
