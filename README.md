@@ -106,26 +106,26 @@ Partitioning by year optimizes query performance for time-based filtering, while
 https://lookerstudio.google.com/reporting/7e7fd48b-3d32-425b-a129-ae39d3b3e7d4
 
 
-### Description
+### Visualizations
 
 - 1 x pivot-table: shows the distribution of professional/non-professional developers and data-related/non-data-related jobs
 - 2 x acid diagram: shows the databases that most of the participants have worked with / want to work with
 - 1 x area diagram: shows the distribution of databases that participants have worked with over the years
 
-- Note: Only the 10 most used databases are shown for a better overview
+Note: Only the 10 most used databases are shown for a better overview
 
-- Filters:
-    - years
-    - professional/non-professional developers
-    - data-related/non-data-related jobs
+
+### Filters
+
+- years
+- professional/non-professional developers
+- data-related/non-data-related jobs
 
 
 
 ### Reproduction
 - I don't think it is possible to place the dashboard in this repository since it is a no-code solution
 - However, the dashboard can be opened by using the [link](https://lookerstudio.google.com/reporting/7e7fd48b-3d32-425b-a129-ae39d3b3e7d4)
-
-
 - Reproducing this visualisation could be done like this:
     - go to [lookerstudio.google.com](https://lookerstudio.google.com/)
     - create a connection to the BigQuery table "stackoverflow_data_clustered"
