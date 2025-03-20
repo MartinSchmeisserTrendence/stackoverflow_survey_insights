@@ -10,13 +10,10 @@ Preview of the final result:
 
 # Problem-Description
 
-As a data-engineer and former software-developer, the surveys of StackOverflow, one of the largest forums in the coding-world, always interested me a lot.
-Hpwever, when looking at the data, it is fastly clear that the data is not in agood shape.
-The questions change every year, the column-names change sometimes, some questions come and some questions disappear between the years.
-
-To gather insights of trends in the tech-world, , a union of this data over the years has to be done, which is not simple, due to the above named challenges.
-However, when concentrating on specific questions, for example how did the usage of speciic databases changed over the years, a union and some transformations can be done without too much effort.
-
+As both a data engineer and former software developer, I've always been drawn to StackOverflow surveys, a key resource in the programming community.
+However, the dataset presents challenges: questions and column names often change annually, and certain questions may appear or vanish over the years.
+This makes analyzing tech-industry trends difficult.
+However, when concentrating on specific questions (e.g., **How did the usage of speciic databases changed over the years?**), a union of the data between the years can be achieved.
 This is what has been conducted in this project.
 
 # Techstack
