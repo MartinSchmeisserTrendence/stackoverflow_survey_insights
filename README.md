@@ -13,7 +13,7 @@ Preview of the final result:
 As both a data engineer and former software developer, I've always been drawn to StackOverflow surveys, a key resource in the programming community.
 However, the dataset presents challenges: questions and column names often change annually, and certain questions may appear or vanish over the years.
 This makes analyzing tech-industry trends difficult.
-However, when concentrating on specific questions (e.g., **How did the usage of speciic databases changed over the years?**), a union of the data between the years can be achieved.
+However, when concentrating on specific questions (e.g., *How did the usage of speciic databases changed over the years?*), a union of the data between the years can be achieved.
 This is what has been conducted in this project.
 
 # Techstack
