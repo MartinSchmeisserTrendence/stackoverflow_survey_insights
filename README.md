@@ -2,18 +2,29 @@
 
 A small project that loads, extracts, transforms and visualizes data from the StackOverflow survey using batchprocessing in GCP. 
 
-Closing project of the data engineering zoomcamp 2025[https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main].
+Closing project of the [data engineering zoomcamp 2025](https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main).
+
+Preview of the final result:
+![Preview of the final result](readme_assets/visualisation.png)
+
 
 # Problem-Description
 
-TODO
+As a data-engineer and former software-developer, the surveys of StackOverflow, one of the largest forums in the coding-world, always interested me a lot.
+Hpwever, when looking at the data, it is fastly clear that the data is not in agood shape.
+The questions change every year, the column-names change sometimes, some questions come and some questions disappear between the years.
+
+To gather insights of trends in the tech-world, , a union of this data over the years has to be done, which is not simple, due to the above named challenges.
+However, when concentrating on specific questions, for example how did the usage of speciic databases changed over the years, a union and some transformations can be done without too much effort.
+
+This is what has been conducted in this project.
 
 # Techstack
 
 - *Terraform*: Setting up the IaC
 - *Kastra*: Orchestrate a Pipeline for processing loading data into a datalake and then into a data warehouse
 - *DBT/BigQuery*: Transforming the data in the data warehouse: prepare and cluster it for the dashboard
-- *Looker Studio (former Google Data Studio)*: Building a dashboard with two tiles to visualize the data
+- *Looker Studio (former Google Data Studio)*: Building a dashboard to visualize the data
 
 
 # Technical Details
@@ -68,14 +79,12 @@ The .zip files are located in "00_data".
 
 ## 3. Transformations with DBT
 
+![Lineage](readme_assets/dbt_lineage.png)
 
 ### Description
 - see lineage for overview
 
 #### Models
-- stg_stackoverflow_meta.sql --> counting respondents per year
-- stackoverflow_meta.sql --> copy of stg_stackoverflow_meta, yould be omitted
-
 - stg_stackoverflow_data.sql --> union of the tables of four years with selected columns and renaming
 - stackoverflow_data_participants.sql --> distincting participants in professional/non-professional developers and in data-related or non-data-related jobs
 - stackoverflow_data_unnested.sql --> unnesting of nested columns "DatabaseHaveWorkedWith" and "DatabaseWandToWorkWith" and joining with stackoverflow_data_participants
@@ -89,5 +98,30 @@ The .zip files are located in "00_data".
 
 ## 4. Building dashboard with Looker Studio
 
+https://lookerstudio.google.com/reporting/7e7fd48b-3d32-425b-a129-ae39d3b3e7d4
 
+
+### Description
+- 1 x pivot-table: shows the distribution of professional/non-professional developers and data-related/non-data-related jobs
+- 2 x acid diagram: shows the databases that most of the participants have worked with / want to work with
+- 1 x area diagram: shows the distribution of databases that participants have worked with over the years
+
+- Note: Only the 10 most used databases are shown for a better overview
+
+- Filters: In the dashboard, it is possible to filter using
+    - years
+    - professional/non-professional developers
+    - data-related/non-data-related jobs
+
+
+
+### Reproduction
+- I don't think it is possible to place the dashboard in this repository since it is a no-code solution
+- However, the dashboard can be opened by using the [link](https://lookerstudio.google.com/reporting/7e7fd48b-3d32-425b-a129-ae39d3b3e7d40)
+
+- Reproducing this visualisation could be done like this:
+    - go to [lookerstudio.google.com](https://lookerstudio.google.com/)
+    - create a connection to the BigQuery table "stackoverflow_data_clustered"
+    - create a new report
+    - create the dashboards mainly via drag and drop
 
